@@ -42,6 +42,7 @@ import net.spy.memcached.MemcachedNode;
 import net.spy.memcached.compat.SpyObject;
 import net.spy.memcached.ops.Operation;
 import net.spy.memcached.ops.OperationState;
+import net.spy.memcached.ops.StoreOperation;
 import net.spy.memcached.protocol.binary.TapAckOperationImpl;
 
 /**
@@ -247,7 +248,7 @@ public abstract class TCPMemcachedNodeImpl extends SpyObject implements
           assert o == timedOutOp;
         } else {
           o.writing();
-          if (!(o instanceof TapAckOperationImpl)) {
+          if (!(o instanceof TapAckOperationImpl) && !(o instanceof StoreOperation)) {
             readQ.add(o);
           }
           return o;

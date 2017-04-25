@@ -24,6 +24,7 @@
 package net.spy.memcached.protocol.binary;
 
 import net.spy.memcached.ops.CASOperation;
+import net.spy.memcached.ops.OperationState;
 import net.spy.memcached.ops.StoreOperation;
 import net.spy.memcached.ops.StoreType;
 
@@ -51,7 +52,7 @@ class StoreOperationImpl extends SingleKeyOperationImpl implements
     byte rv;
     switch (t) {
     case set:
-      rv = SET;
+      rv = SETQ;
       break;
     case add:
       rv = ADD;
@@ -112,5 +113,10 @@ class StoreOperationImpl extends SingleKeyOperationImpl implements
   public String toString() {
     return super.toString() + " Cas: " + cas + " Exp: " + exp + " Flags: "
       + flags + " Data Length: " + data.length;
+  }
+
+  public void writeComplete() {
+	  getCallback().receivedStatus(STATUS_OK);
+      transitionState(OperationState.COMPLETE);
   }
 }

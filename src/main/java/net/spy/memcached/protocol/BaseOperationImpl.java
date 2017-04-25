@@ -172,7 +172,7 @@ public abstract class BaseOperationImpl extends SpyObject implements Operation {
     transitionState(OperationState.WRITING);
   }
 
-  public final void writeComplete() {
+  public void writeComplete() {
     writeCompleteTimestamp = System.nanoTime();
     transitionState(OperationState.READING);
   }
